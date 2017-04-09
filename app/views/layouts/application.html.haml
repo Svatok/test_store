@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title Test Store
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+%body
+  %a{href: main_app.root_path} Catalog
+  %a{href: orders_path} Orders
+  %a{href: engine_cart.cart_path}= "Cart(#{current_order.order_items.only_products.count})"
+  - if signed_in?
+    = link_to "Log out", destroy_user_session_path, method: :delete 
+  - else
+    %a{href: new_user_session_path} Log in
+    %a{href: new_user_registration_path} Sign up
+  - flash.each do |name, msg|
+    %div{id: "flash_#{name}"}= msg
+  = yield

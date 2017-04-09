@@ -1,0 +1,47 @@
+%h2 Products:
+%table.table.table-hover
+  %thead
+    %tr
+      %th
+        %span.in-grey-600 Title
+      %th
+        %span.in-grey-600 Description
+      %th
+        %span.in-grey-600 Price
+      %th
+        %span.in-grey-600
+  %tbody
+    - @products.each do |product|
+      %tr
+        %td
+          %span.in-grey-900.font-16.font-weight-light= product.title
+        %td
+          %span.in-grey-900.font-16.font-weight-light= product.description
+        %td
+          %strong.font-16.font-weight-light= number_to_currency(product.price)
+        %td
+          %a.font-12{href: engine_cart.cart_path('order_item[product_id]': product.id, 'order_item[quantity]': 1), 'data-method': 'put'} Add To Cart
+%h2 Coupons:
+%table.table.table-hover
+  %thead
+    %tr
+      %th
+        %span.in-grey-600 Code
+      %th
+        %span.in-grey-600 Status
+      %th
+        %span.in-grey-600 Price
+      %th
+        %span.in-grey-600
+  %tbody
+    - @coupons.each do |coupon|
+      %tr
+        %td
+          %span.in-grey-900.font-16.font-weight-light= coupon.title
+        %td
+          %span.in-grey-900.font-16.font-weight-light= coupon.status
+        %td
+          %strong.font-16.font-weight-light= number_to_currency(coupon.price * -1)
+        %td
+          - if coupon.status == 'inactive'
+            %a.font-12{href: products_activate_path(coupon: coupon.id)} Activate
